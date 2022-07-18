@@ -18,25 +18,29 @@ class GiftExchange {
   }
 
   static traditional(names) {
-    let traditionalPairs = [];
-    var name1 = names.splice(Math.random() * names.length, 1);
-    let firstName = name1;
-    var name2 = names.splice(Math.random() * names.length, 1);
-    let giftString = `${name1} is giving a gift to ${name2}`;
+    // Function to shuffle array
+    const shuffle = (arr) => {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    };
 
-    traditionalPairs.push(giftString);
+    const randomNames = shuffle(names);
 
-    for (let i = 0; i < names.length - 1; i++) {
-      name1 = name2;
-      name2 = names.splice(Math.random() * names.length, 1);
-      let giftString = `${name1} is giving a gift to ${name2}`;
-      traditionalPairs.push(giftString);
+    // create ordered pairings
+    const pairings = [];
+
+    for (let i = 0; i < randomNames.length; i++) {
+      const giver = randomNames[i];
+      const receiver =
+        i === randomNames.length - 1 ? randomNames[0] : randomNames[i + 1]; //If we are at the end of the array, the last person gets the first person. Otherwise, pair every person to the person next to them.
+
+      pairings.push(`${giver} is giving a gift to ${receiver}`);
     }
 
-    giftString = `${name2} is giving a gift to ${firstName}`;
-
-    traditionalPairs.push(giftString);
-    return traditionalPairs;
+    return pairings;
   }
 }
 
